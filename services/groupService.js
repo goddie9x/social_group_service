@@ -103,7 +103,7 @@ class GroupService extends BasicService {
         await GroupMember.deleteMany({
             group: group._id
         });
-        await group.destroy();
+        await group.remove();
     }
     async joinGroup({ id, currentUser }) {
         const group = await Group.findById(id);
