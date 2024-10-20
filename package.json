@@ -3,6 +3,7 @@
     "dotenv": "^16.4.5",
     "eureka-js-client": "^4.5.0",
     "express": "^4.21.1",
+    "group_service": "file:",
     "mongoose": "^8.7.1"
   },
   "name": "group_service",
@@ -10,6 +11,7 @@
   "description": "group service for social media",
   "main": "index.js",
   "scripts": {
+    "start": "node index.js",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "keywords": [

@@ -27,12 +27,15 @@ const GroupMemberSchema = new mongoose.Schema({
 GroupMemberSchema.index({
     group: 1,
     user: 1,
-    createdAt: -1
 }, { unique: true });
 GroupMemberSchema.index({
     user: 1,
     group: 1,
     createdAt: -1
 });
-
-module.exports = GroupMemberSchema;
+GroupMemberSchema.index({
+    group: 1,
+    accepted: 1,
+    createdAt: -1
+});
+module.exports = mongoose.model('GroupMembers', GroupMemberSchema);

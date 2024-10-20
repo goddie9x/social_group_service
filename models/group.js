@@ -34,6 +34,10 @@ const GroupSchema = new mongoose.Schema({
         type: Boolean,
         default: false,
     },
+    needApprovedToPost: {
+        type: Boolean,
+        default: false,
+    },
     location: {
         type: String,
     },

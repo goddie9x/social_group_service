@@ -9,7 +9,11 @@ class GroupController extends BasicController {
     }
     async getGroupWhereUserIsMemberWithPaginate(req, res) {
         try {
-            const results = await groupService.getGroupWhereUserIsMemberWithPaginate(req.query);
+            const payloads = {
+                ...req.query,
+                userId: req.body.currentUser.userId
+            }
+            const results = await groupService.getGroupWhereUserIsMemberWithPaginate(payloads);
 
             return res.status(200).json({ ...results });
         } catch (error) {
@@ -18,7 +22,11 @@ class GroupController extends BasicController {
     }
     async getGroupsWhichUserManagerWithPaginate(req, res) {
         try {
-            const results = await groupService.getGroupsWhichUserManagerWithPaginate(req.query);
+            const payloads = {
+                ...req.query,
+                userId: req.body.currentUser.userId
+            }
+            const results = await groupService.getGroupsWhichUserManagerWithPaginate(payloads);
 
             return res.status(200).json({ ...results });
         } catch (error) {
@@ -27,7 +35,7 @@ class GroupController extends BasicController {
     }
     async getJoinGroupRequestWithPaginate(req, res) {
         try {
-            const results = await groupService.getJoinGroupRequestWithPaginate(req.params);
+            const results = await groupService.getJoinGroupRequestWithPaginate({ ...req.query, ...req.params, ...req.body });
 
             return res.status(200).json({ ...results });
         } catch (error) {
@@ -61,10 +69,56 @@ class GroupController extends BasicController {
             return this.handleResponseError(res, error);
         }
     }
+    async acceptJoinRequest(req, res) {
+        try {
+            const payloads = {
+                currentUser: req.body.currentUser,
+                id: req.params.requestId
+            }
+            await groupService.acceptJoinRequest(payloads);
+
+            res.status(201).json({ message: 'Accept join group request successful' });
+        } catch (error) {
+            return this.handleResponseError(res, error);
+        }
+    }
+    async rejectJoinRequest(req, res) {
+        try {
+            const payloads = {
+                currentUser: req.body.currentUser,
+                id: req.params.requestId
+            }
+            await groupService.rejectJoinRequest(payloads);
+
+            res.status(201).json({ message: 'Reject join group request successful' });
+        } catch (error) {
+            return this.handleResponseError(res, error);
+        }
+    }
+    async getAllMemberOfGroup(req, res) {
+        try {
+            const payloads = {
+                groupId: req.params.groupId,
+                currentUser: req.body.currentUser,
+                page: req.query.page
+            };
+            const result = await groupService.getAllUserInGroup(payloads);
+
+            return res.status(200).json(result);
+        } catch (error) {
+            return this.handleResponseError(res, error);
+        }
+    }
     async leaveGroup(req, res) {
         try {
-            await groupService.leaveGroup({ ...req.body, ...req.params });
+            const currentUser = req.body.currentUser;
+            const payloads = {
+                groupId: req.params.id,
+                currentUser,
+                userId: currentUser.userId
+            };
 
+            await groupService.removeUserInGroup(payloads);
             return res.status(201).json({ message: 'Leave group successful' });
         } catch (error) {
             return this.handleResponseError(res, error);
@@ -72,25 +126,46 @@ class GroupController extends BasicController {
     }
     async appointUserForGroup(req, res) {
         try {
-            const group = await groupService.appointUserForGroup(req.body);
-
-            return res.status(201).json(group);
+            await groupService.appointUserForGroup(req.body);
+            return res.status(201).json({ message: 'Appoint user successful' });
+        } catch (error) {
+            return this.handleResponseError(res, error);
+        }
+    }
+    async getAllBannedUserInGroup(req, res) {
+        try {
+            const result = await groupService.getAllBannedUserInGroup({ ...req.query, ...req.params });
+            
+            res.status(200).json(result);
         } catch (error) {
             return this.handleResponseError(res, error);
         }
     }
     async banUserFromGroup(req, res) {
         try {
-            const groupMember = await groupService.banUserFromGroup(req.body);
+            await groupService.toggleBanUserFromGroup({ ...req.body, banned: true });
 
-            return res.status(201).json(groupMember);
+            return res.status(201).json({
+                message:'Ban user successful'
+            });
+        } catch (error) {
+            return this.handleResponseError(res, error);
+        }
+    }
+    async unbanUserFromGroup(req, res) {
+        try {
+            await groupService.toggleBanUserFromGroup({ ...req.body, banned: false });
+
+            return res.status(201).json({
+                message:'Un ban user successful'
+            });
         } catch (error) {
             return this.handleResponseError(res, error);
         }
     }
     async deleteGroup(req, res) {
         try {
-            const deletedGroup = await groupService.deleteGroup(req.body);
+            const deletedGroup = await groupService.deleteGroup({ id: req.params.id, ...req.body });
 
             return res.status(201).json(deletedGroup);
         } catch (error) {
