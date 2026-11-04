@@ -1,5 +1,5 @@
 # syntax=docker/dockerfile:1
-FROM node:18-alpine
+FROM node:20-alpine
 RUN apk add --no-cache git && \
     addgroup -S app && adduser -S app -G app
 WORKDIR /app
