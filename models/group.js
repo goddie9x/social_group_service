@@ -1,5 +1,5 @@
 const mongoose = require('../configs/mongo');
-const GROUPS = require('../utils/constants/groups');
+const GROUPS = require('@godsocial/utils/constants/groups');
 
 const PRIVACY_ARRAY = Object.values(GROUPS.PRIVACY);
 

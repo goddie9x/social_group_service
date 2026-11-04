@@ -1,6 +1,6 @@
 const groupService = require('../services/groupService');
-const BasicController = require('../utils/controllers/basicController');
-const bindMethodsWithThisContext = require('../utils/classes/bindMethodsWithThisContext');
+const BasicController = require('@godsocial/utils/controllers/basicController');
+const bindMethodsWithThisContext = require('@godsocial/utils/classes/bindMethodsWithThisContext');
 
 class GroupController extends BasicController {
     constructor() {

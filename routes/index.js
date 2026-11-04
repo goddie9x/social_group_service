@@ -1,5 +1,5 @@
 const router = require('express').Router();
-const mapHealthStatusRoute = require('../utils/eureka/healthStatusRoute');
+const mapHealthStatusRoute = require('@godsocial/utils/eureka/healthStatusRoute');
 const groupController = require('../controllers/groupController');
 
 mapHealthStatusRoute(router);

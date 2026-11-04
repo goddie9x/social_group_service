@@ -2,8 +2,8 @@ require('dotenv').config();
 
 const express = require('express');
 const router = require('./routes');
-const connectToDiscoveryServer = require('./utils/configs/discovery');
-const getAuthAndPutCurrentUserAuthToBody = require('./utils/middlewares/getAuthAndPutCurrentUserAuthToBody');
+const connectToDiscoveryServer = require('@godsocial/utils/configs/discovery');
+const getAuthAndPutCurrentUserAuthToBody = require('@godsocial/utils/middlewares/getAuthAndPutCurrentUserAuthToBody');
 
 const PORT = process.env.PORT || 3008;
 const app = express();

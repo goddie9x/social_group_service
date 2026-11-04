@@ -1,10 +1,10 @@
-const BasicService = require('../utils/services/basicService');
-const bindMethodsWithThisContext = require('../utils/classes/bindMethodsWithThisContext');
+const BasicService = require('@godsocial/utils/services/basicService');
+const bindMethodsWithThisContext = require('@godsocial/utils/classes/bindMethodsWithThisContext');
 const Group = require('../models/group');
 const GroupMember = require('../models/groupMember');
-const { BadRequestException, CommonException, TargetNotExistException, IncorrectPermission, TargetAlreadyExistException } = require('../utils/exceptions/commonExceptions');
-const { ROLES } = require('../utils/constants/users');
-const { updateObjectIfUpdateFieldDataDefined } = require('../utils/objects');
+const { BadRequestException, CommonException, TargetNotExistException, IncorrectPermission, TargetAlreadyExistException } = require('@godsocial/utils/exceptions/commonExceptions');
+const { ROLES } = require('@godsocial/utils/constants/users');
+const { updateObjectIfUpdateFieldDataDefined } = require('@godsocial/utils/objects');
 class GroupService extends BasicService {
     constructor() {
         super();
